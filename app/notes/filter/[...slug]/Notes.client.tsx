@@ -1,22 +1,23 @@
 "use client";
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { fetchNotes } from "../../lib/api";
-import type { NoteType } from "../../lib/api";
-import type { Note } from "../../types/note";
-import NoteList from "../../components/NoteList/NoteList";
-import Pagination from "../../components/Pagination/Pagination";
+import { fetchNotes } from "../../../../lib/api";
+import type { NoteType } from "../../../../lib/api";
+import type { Note } from "../../../../types/note";
+import NoteList from "../../../../components/NoteList/NoteList";
+import Pagination from "../../../../components/Pagination/Pagination";
 import { useState } from "react";
-import Modal from "../../components/Modal/Modal";
-import NoteForm from "../../components/NoteForm/NoteForm";
-import SearchBox from "../../components/SearchBox/SearchBox";
+import Modal from "../../../../components/Modal/Modal";
+import NoteForm from "../../../../components/NoteForm/NoteForm";
+import SearchBox from "../../../../components/SearchBox/SearchBox";
 import { useDebounce } from "use-debounce";
 import css from "./Notes.module.css";
 type initialProps = {
   initialData: NoteType;
+  tag: string;
 };
 
-function NotesClient({ initialData }: initialProps) {
+function NotesClient({ initialData, tag }: initialProps) {
   const [currentPage, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState<string>("");
@@ -30,8 +31,8 @@ function NotesClient({ initialData }: initialProps) {
   const perPage = 12;
   const [debouncedSearchText] = useDebounce(searchText, 300);
   const { data, isSuccess, isLoading, error } = useQuery<NoteType>({
-    queryKey: ["notes", perPage, currentPage, debouncedSearchText],
-    queryFn: () => fetchNotes(currentPage, perPage, debouncedSearchText),
+    queryKey: ["notes", perPage, currentPage, debouncedSearchText, tag],
+    queryFn: () => fetchNotes(currentPage, perPage, debouncedSearchText, tag),
     placeholderData: keepPreviousData,
     initialData,
   });

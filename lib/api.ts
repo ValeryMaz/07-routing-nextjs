@@ -9,11 +9,13 @@ export interface NoteType {
 export async function fetchNotes(
   page: number,
   perPage: number,
-  query: string
+  query: string,
+  tag: string
 ): Promise<NoteType> {
   const params: Record<string, string> = {
     page: String(page),
     perPage: String(perPage),
+    tag: String(tag),
   };
 
   if (query.trim()) {
@@ -29,7 +31,7 @@ export async function fetchNotes(
       },
     }
   );
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 }
 
@@ -69,3 +71,18 @@ export async function fetchNoteById(id: string): Promise<Note> {
   );
   return response.data;
 }
+
+// export async function fetchNotesByCategory(tag: string): Promise<NoteType> {
+//   const response = await axios.get<NoteType>(
+//     "https://notehub-public.goit.study/api/notes",
+//     {
+//       params: {
+//         tag,
+//       },
+//       headers: {
+//         Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
+//       },
+//     }
+//   );
+//   return response.data;
+// }
