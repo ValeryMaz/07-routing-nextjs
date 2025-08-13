@@ -1,19 +1,19 @@
 import css from "./NotesSidebar.module.css";
 import Link from "next/link";
 const NotesSidebar = async () => {
-  const categories = ["Work", "Personal", "Meeting", "Shopping", "Todo"];
+  const categories = ["All", "Work", "Personal", "Meeting", "Shopping", "Todo"];
   return (
     <div className={css.menuContainer}>
-      <button className={css.menuButton}>Notes ▾</button>
+      {/* <button className={css.menuButton}>Notes ▾</button> */}
       <ul className={css.menuList}>
         {/* список тегів */}
-        <li className={css.menuLink}>
+        {/* <li className={css.menuLink}>
           <Link href={`/notes`}>All notes</Link>
-        </li>
+        </li> */}
         {categories.map((cat) => {
           return (
             <li className={css.menuItem} key={cat}>
-              <Link href={`/notes/filter/{tag}`} className={css.menuLink}>
+              <Link href={`/notes/filter/${cat}`} className={css.menuLink}>
                 {cat}
               </Link>
             </li>

@@ -28,7 +28,8 @@ function NotesClient({ initialData, tag }: initialProps) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const perPage = 12;
+
+  const perPage = 9;
   const [debouncedSearchText] = useDebounce(searchText, 300);
   const { data, isSuccess, isLoading, error } = useQuery<NoteType>({
     queryKey: ["notes", perPage, currentPage, debouncedSearchText, tag],

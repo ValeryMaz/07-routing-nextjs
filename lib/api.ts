@@ -9,23 +9,22 @@ export interface NoteType {
 export async function fetchNotes(
   page: number,
   perPage: number,
-  query: string,
+  search: string,
   tag: string
 ): Promise<NoteType> {
-  const params: Record<string, string> = {
-    page: String(page),
-    perPage: String(perPage),
-    tag: String(tag),
-  };
-
-  if (query.trim()) {
-    params.search = query.trim();
-  }
+  // if (search.trim()) {
+  //   params.search = query.trim();
+  // }
 
   const response = await axios.get<NoteType>(
     "https://notehub-public.goit.study/api/notes",
     {
-      params,
+      params: {
+        page,
+        perPage,
+        ...(search.trim() && { search: search.trim() }),
+        ...(tag && { tag }),
+      },
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
       },
