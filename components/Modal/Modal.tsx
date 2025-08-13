@@ -1,21 +1,13 @@
 import css from "./Modal.module.css";
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
-// import type { Movie } from "../../types/movie";
 
-interface MovieModalProps {
+interface ModalProps {
+  children: React.ReactNode;
   onClose: () => void;
-  children?: React.ReactNode;
-  //   note: Movie;
 }
 
-export default function Modal({ onClose, children }: MovieModalProps) {
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
+export default function Modal({ children, onClose }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -31,14 +23,17 @@ export default function Modal({ onClose, children }: MovieModalProps) {
       document.body.style.overflow = "";
     };
   }, [onClose]);
+
   return createPortal(
     <div
       className={css.backdrop}
       role="dialog"
       aria-modal="true"
-      onClick={handleBackdropClick}
+      onClick={onClose}
     >
-      <div className={css.modal}>{children}</div>
+      <div className={css.modal} onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>,
     document.body
   );

@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Modal = ({ children }: Props) => {
+const NotePreviewModal = ({ children }: Props) => {
   return (
     <div className={css.backdrop}>
       <div className={css.modal}>{children}</div>
@@ -13,4 +13,4 @@ const Modal = ({ children }: Props) => {
   );
 };
 
-export default Modal;
+export default NotePreviewModal;

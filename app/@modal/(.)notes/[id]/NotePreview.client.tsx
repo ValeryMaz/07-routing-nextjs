@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { fetchNoteById } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import NotePreviewModal from "@/components/NotePreviewModal/NotePreviewModal";
 export default function NotePreview() {
   const router = useRouter();
 
@@ -23,17 +24,19 @@ export default function NotePreview() {
   if (isLoading) return <p>Please wait</p>;
   if (error || !note) return <p>Some error..</p>;
   return (
-    <div className={css.container}>
-      <div className={css.item}>
-        <div className={css.header}>
-          <h2>{note.title}</h2>
+    <NotePreviewModal>
+      <div className={css.container}>
+        <div className={css.item}>
+          <div className={css.header}>
+            <h2>{note.title}</h2>
+          </div>
+          <p className={css.content}>{note.content}</p>
+          <p className={css.date}>Created date: {note.createdAt}</p>
+          <button className={css.backBtn} onClick={close}>
+            Close
+          </button>
         </div>
-        <p className={css.content}>{note.content}</p>
-        <p className={css.date}>Created date: {note.createdAt}</p>
-        <button className={css.backBtn} onClick={close}>
-          Close
-        </button>
       </div>
-    </div>
+    </NotePreviewModal>
   );
 }
