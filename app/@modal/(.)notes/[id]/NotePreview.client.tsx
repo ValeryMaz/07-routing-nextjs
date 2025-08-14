@@ -4,7 +4,10 @@ import { useParams } from "next/navigation";
 import { fetchNoteById } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import NotePreviewModal from "@/components/NotePreviewModal/NotePreviewModal";
+import { format } from "date-fns";
+import { enUS } from "date-fns/locale";
+// import NotePreviewModal from "@/components/NotePreviewModal/NotePreviewModal";
+import Modal from "@/components/Modal/Modal";
 export default function NotePreview() {
   const router = useRouter();
 
@@ -23,20 +26,24 @@ export default function NotePreview() {
 
   if (isLoading) return <p>Please wait</p>;
   if (error || !note) return <p>Some error..</p>;
+  const formattedDate = format(new Date(note.createdAt), "MM/dd/yyyy, h:mm a", {
+    locale: enUS,
+  });
   return (
-    <NotePreviewModal>
+    <Modal onClose={close}>
       <div className={css.container}>
         <div className={css.item}>
           <div className={css.header}>
             <h2>{note.title}</h2>
           </div>
           <p className={css.content}>{note.content}</p>
-          <p className={css.date}>Created date: {note.createdAt}</p>
+          <p className={css.date}>Created date: {formattedDate} EDT</p>
+          <span className={css.tag}>{note.tag}</span>
           <button className={css.backBtn} onClick={close}>
             Close
           </button>
         </div>
       </div>
-    </NotePreviewModal>
+    </Modal>
   );
 }
